@@ -1,10 +1,25 @@
+import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import ReactDOM from "react-dom";
 import * as serviceWorker from './serviceWorker';
+import { Redirect, Route, Router } from "react-router";
+import createBrowserHistory from "history/createBrowserHistory";
+import Counters from "./components/counters";
+import Form from "./components/form";
 
-ReactDOM.render(<App />, document.getElementById('root'));
+
+export const customHistory = createBrowserHistory();
+const Root = () => (
+    <Router history={customHistory}>
+      <div>
+        <Route path="/home" component={Counters} />
+        <Route path="/admin" component={Form} />
+        <Redirect from="/" to="/home" />
+      </div>
+    </Router>
+);
+ReactDOM.render(<Root />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
