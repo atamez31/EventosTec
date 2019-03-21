@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { TextField, DropDownMenu, FlatButton, MenuItem } from "material-ui";
+import { TextField, FlatButton } from "material-ui";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import Header from "./header";
+import { database, validateSession } from '../config/config';
+
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -67,9 +68,10 @@ class Form extends Component {
         console.log(this.state);
         // if (this.validateForm()) {
         //     // Create firebase order and redirect to /app/deliver
-        //     database.ref(`orders`).push(this.state).then((ref) => {
-        //         customHistory.push('/app/deliver');
-        //     });
+            database.ref(`eventos`).push(this.state).then((ref) => {
+                //customHistory.push('/app/deliver');
+                alert("Evento Creado");
+            });
 
         // } else {
         //     alert('Please check your order, remember that the minimum tip is of $5');

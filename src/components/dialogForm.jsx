@@ -51,7 +51,7 @@ export default class FormDialog extends React.Component {
       <div>
         <Button
           variant="outlined"
-          color="success"
+          color="primary"
           onClick={this.handleClickOpen}
         >
           Crear Evento

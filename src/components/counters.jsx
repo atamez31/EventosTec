@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Header from './header';
-import Form from "./form";
 import DialogForm from "./dialogForm";
+import DataTable from './datatable';
 class Counters extends Component {
   state = {
   };
@@ -13,7 +13,11 @@ class Counters extends Component {
         <br />
         {/* <Form /> */}
         <br />
-        <DialogForm />
+        <div className="container" style={{paddingTop:20}}>
+          <DialogForm />
+          <br></br>
+          <DataTable />
+        </div>
         <div />
       </div>
     );

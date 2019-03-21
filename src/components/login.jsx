@@ -23,7 +23,7 @@ export default class FormDialog extends React.Component {
     render() {
         return (
             <div>
-                <Button variant="outlined" color="success" onClick={this.handleClickOpen}>
+                <Button variant="outlined" color="default" onClick={this.handleClickOpen}>
                    Admin
         </Button>
                 <Dialog
