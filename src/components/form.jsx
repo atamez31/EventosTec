@@ -62,6 +62,7 @@ class Form extends Component {
     const horario = e.target.value;
     this.setState(() => ({ horario }));
   };
+
   validateForm() {
     if (this.state.evento.trim() === "" || this.state.participantes.trim() === "") {
       return false;
@@ -69,7 +70,7 @@ class Form extends Component {
     else {
       return true;
     }
-  }
+  };
 
   handleFormSubmit = e => {
     e.preventDefault();
