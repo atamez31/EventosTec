@@ -155,10 +155,15 @@ class DataTable extends Component {
             },
             {
               Header: "",
-              accessor: "actions"
-            }
-          ]}
-          defaultPageSize={10}
+              accessor: "actions",
+              Cell: ({ value }) => (
+            <div>
+              <button onClick={() => { console.log('clicked value', value) }}>Editar</button>
+              <button onClick={() => { console.log('clicked value', value) }}>Eliminar</button>
+            </div>)
+          }
+        ]}
+          defaultPageSize={4}
           className="-striped -highlight"
         />
         <br />

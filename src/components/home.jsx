@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Header from './header';
 import DialogForm from "./dialogForm";
 import DataTable from './datatable';
-class Counters extends Component {
+class Home extends Component {
   state = {
   };
 
@@ -24,4 +24,4 @@ class Counters extends Component {
   }
 }
  
-export default Counters;
+export default Home;

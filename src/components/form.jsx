@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { TextField, FlatButton } from "material-ui";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import { database, validateSession } from '../config/config';
+import { database, validateSession } from "../config/config";
 
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
@@ -43,14 +43,14 @@ class Form extends Component {
       return { discapidad };
     });
   };
-  
-    handleDropDownChangeAmbito = e => {
-        console.log(this.state.ambito);
-        const ambito = e.target.value;
-        this.setState(() => {
-            return { ambito };
-        });
-    };
+
+  handleDropDownChangeAmbito = e => {
+    console.log(this.state.ambito);
+    const ambito = e.target.value;
+    this.setState(() => {
+      return { ambito };
+    });
+  };
 
   handleDateChange = e => {
     const fecha = e.target.value;
@@ -62,31 +62,35 @@ class Form extends Component {
     const horario = e.target.value;
     this.setState(() => ({ horario }));
   };
-  
-    handleFormSubmit = (e) => {
-        e.preventDefault();
-        console.log(this.state);
-        // if (this.validateForm()) {
-        //     // Create firebase order and redirect to /app/deliver
-            database.ref(`eventos`).push(this.state).then((ref) => {
-                //customHistory.push('/app/deliver');
-                alert("Evento Creado");
-            });
-
-        // } else {
-        //     alert('Please check your order, remember that the minimum tip is of $5');
-        // }
-
+  validateForm() {
+    if (this.state.evento.trim() === "" || this.state.participantes.trim() === "") {
+      return false;
     }
-    
+    else {
+      return true;
+    }
+  }
+
+  handleFormSubmit = e => {
+    e.preventDefault();
+    console.log(this.state);
+    if (this.validateForm()) {
+      database
+        .ref(`eventos`)
+        .push(this.state)
+        .then(ref => {
+          alert("Evento Creado");
+        });
+    } else {
+      alert("Llena todos los campos");
+    }
+  };
 
   tipos = ["Conferencia", "Curso", "Diplomado", "Seminario", "Taller"];
   ambitos = ["Escolar", "Laboral", "Salud", "Social"];
   discapidad = ["Auditiva", "Intelectual", "Motriz", "Psicosocial", "Visual"];
 
-  
   render() {
-      
     return (
       <div>
         {/* <Header /> */}
@@ -109,15 +113,15 @@ class Form extends Component {
             <br />
             <TextField
               //style={{ width: "100%" }}
-              id='fecha'
+              id="fecha"
               label="Fecha"
               type="date"
               value={this.state.fecha}
               onChange={this.handleDateChange}
             />
             <TextField
-              id='tiempo'
-              style={{paddingLeft:10}}
+              id="tiempo"
+              style={{ paddingLeft: 10 }}
               type="time"
               label="Hora"
               value={this.state.horario}
@@ -132,9 +136,7 @@ class Form extends Component {
                 onChange={this.handleDropDownChangeAmbito}
               >
                 {this.ambitos.map(category => {
-                  return (
-                    <option value={category}>{category}</option>
-                  );
+                  return <option value={category}>{category}</option>;
                 })}
               </Select>
             </FormControl>
@@ -142,14 +144,12 @@ class Form extends Component {
             <FormControl>
               <InputLabel htmlFor="tipo">Tipo</InputLabel>
               <Select
-              native
+                native
                 value={this.state.tipoEventos}
                 onChange={this.handleDropDownChange}
               >
                 {this.tipos.map(category => {
-                  return (
-                      <option value={category}>{category}</option>
-                  );
+                  return <option value={category}>{category}</option>;
                 })}
               </Select>
             </FormControl>
@@ -162,14 +162,16 @@ class Form extends Component {
                 onChange={this.handleDropDownChangeDiscapacidad}
               >
                 {this.discapidad.map(category => {
-                  return (
-                      <option value={category}>{category}</option>
-                  );
+                  return <option value={category}>{category}</option>;
                 })}
               </Select>
             </FormControl>
-            <div style={{paddingTop:10}}>
-                <FlatButton label="Crear Evento" backgroundColor="lightblue" onClick={this.handleFormSubmit}></FlatButton>
+            <div style={{ paddingTop: 10 }}>
+              <FlatButton
+                label="Crear Evento"
+                backgroundColor="lightblue"
+                onClick={this.handleFormSubmit}
+              />
             </div>
           </MuiThemeProvider>
         </form>
@@ -177,7 +179,7 @@ class Form extends Component {
     );
   }
 }
- 
+
 export default Form;
 
 /*

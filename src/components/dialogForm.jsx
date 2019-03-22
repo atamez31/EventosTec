@@ -63,7 +63,7 @@ export default class FormDialog extends React.Component {
         >
           <DialogTitle id="form-dialog-title">Crear Evento</DialogTitle>
           <DialogContent>
-            <Form submit={this.handleFormSubmit} />
+            <Form/>
           </DialogContent>
           <DialogActions>
           </DialogActions>
