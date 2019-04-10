@@ -1,14 +1,16 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Form from "./form";
-
+import AddIcon from "@material-ui/icons/Add";
+import EditIcon from "@material-ui/icons/Edit";
+import Button from "@material-ui/core/Button";
 export default class FormDialog extends React.Component {
   state = {
-    open: false
+    open: false,
+    type: this.props.type,
   };
 
   handleClickOpen = () => {
@@ -21,40 +23,30 @@ export default class FormDialog extends React.Component {
 
   handleFormSubmit = e => {
     e.preventDefault();
-    console.log(this.state);
-    // if (this.validateForm()) {
-    //     // Create firebase order and redirect to /app/deliver
-    //     database.ref(`orders`).push(this.state).then((ref) => {
-    //         customHistory.push('/app/deliver');
-    //     });
-
-    // } else {
-    //     alert('Please check your order, remember that the minimum tip is of $5');
-    // }
   };
   handleFormSubmit = e => {
     e.preventDefault();
-    console.log(this.state);
-    // if (this.validateForm()) {
-    //     // Create firebase order and redirect to /app/deliver
-    //     database.ref(`orders`).push(this.state).then((ref) => {
-    //         customHistory.push('/app/deliver');
-    //     });
-
-    // } else {
-    //     alert('Please check your order, remember that the minimum tip is of $5');
-    // }
   };
+
+  chooseIcon = () => {
+    if(this.props.type === "Add") {
+      return <AddIcon />
+    }
+    else {
+      return <EditIcon fontSize="small" />;
+    }
+  }
 
   render() {
     return (
       <div>
         <Button
-          variant="outlined"
+          variant={this.props.icon}
           color="primary"
+          aria-label={this.props.type}
           onClick={this.handleClickOpen}
         >
-          Crear Evento
+          {this.chooseIcon()}
         </Button>
         <Dialog
           open={this.state.open}
@@ -63,10 +55,13 @@ export default class FormDialog extends React.Component {
         >
           <DialogTitle id="form-dialog-title">Crear Evento</DialogTitle>
           <DialogContent>
-            <Form/>
+            <Form
+              type={this.props.type}
+              row={this.props.row}
+              data={this.props.data}
+            />
           </DialogContent>
-          <DialogActions>
-          </DialogActions>
+          <DialogActions />
         </Dialog>
       </div>
     );

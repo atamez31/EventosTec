@@ -13,9 +13,9 @@ class Home extends Component {
         <br />
         {/* <Form /> */}
         <br />
-        <div className="container" style={{paddingTop:20}}>
-          <DialogForm />
-          <br></br>
+        <div className="container" style={{ paddingTop: 20 }}>
+          <DialogForm type={"Add"} icon={"fab"} />
+          <br />
           <DataTable />
         </div>
         <div />

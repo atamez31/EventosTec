@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { TextField, FlatButton } from "material-ui";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import { database, validateSession } from "../config/config";
+import { database } from "../config/config";
 
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
@@ -17,6 +17,18 @@ class Form extends Component {
     tipoEventos: "Conferencia"
   };
 
+  componentWillMount = () => {
+    if (this.props.type === "Edit") {
+      this.setState(() => ({
+        evento: this.props.data[this.props.row].evento,
+        participantes: this.props.data[this.props.row].participantes,
+        horario: this.props.data[this.props.row].horario,
+        ambito: this.props.data[this.props.row].ambito,
+        discapidad: this.props.data[this.props.row].discapidad,
+        tipoEventos: this.props.data[this.props.row].tipoEventos
+      }));
+    }
+  }
   handleNameChange = e => {
     const evento = e.target.value;
     this.setState(() => ({ evento }));
@@ -38,14 +50,13 @@ class Form extends Component {
   handleDropDownChangeDiscapacidad = event => {
     const discapidad = event.target.value;
     //value = discapidad
-    //console.log(tipoEventos, this.state.tipoEventos);
     this.setState(() => {
       return { discapidad };
     });
   };
 
   handleDropDownChangeAmbito = e => {
-    console.log(this.state.ambito);
+
     const ambito = e.target.value;
     this.setState(() => {
       return { ambito };
@@ -54,7 +65,6 @@ class Form extends Component {
 
   handleDateChange = e => {
     const fecha = e.target.value;
-    console.log(fecha);
     this.setState(() => ({ fecha }));
   };
 
@@ -64,7 +74,8 @@ class Form extends Component {
   };
 
   validateForm() {
-    if (this.state.evento.trim() === "" || this.state.participantes.trim() === "") {
+    if (this.state.evento.trim() === "" || this.state.participantes.trim() === "" ||
+        this.state.fecha === "" || this.state.horario === "") {
       return false;
     }
     else {
@@ -74,14 +85,27 @@ class Form extends Component {
 
   handleFormSubmit = e => {
     e.preventDefault();
-    console.log(this.state);
     if (this.validateForm()) {
-      database
-        .ref(`eventos`)
-        .push(this.state)
-        .then(ref => {
-          alert("Evento Creado");
+      if(this.props.type === "Edit")
+      {
+        database.ref(`eventos`).child(this.props.data[this.props.row].key).update({
+          evento: this.state.evento, //"", //eData[k].evento,
+          participantes: this.state.participantes,//"", //eData[k].participantes,
+          tipoEventos: this.state.tipoEventos, //eData[k].tipoEventos,
+          ambito: this.state.ambito, //eData[k].ambito,
+          discapidad: this.state.discapidad, //eData[k].discapidad,
+          fecha: this.state.fecha, //this.getFecha(eData[k].fecha),
+          horario: this.state.horario //eData[k].horario
         });
+      }
+      else {
+        database
+          .ref(`eventos`)
+          .push(this.state)
+          .then(ref => {
+            alert("Evento Creado");
+          });
+      }
     } else {
       alert("Llena todos los campos");
     }
@@ -94,7 +118,6 @@ class Form extends Component {
   render() {
     return (
       <div>
-        {/* <Header /> */}
         <form className="container">
           <MuiThemeProvider>
             <TextField
@@ -113,7 +136,6 @@ class Form extends Component {
             />
             <br />
             <TextField
-              //style={{ width: "100%" }}
               id="fecha"
               label="Fecha"
               type="date"
@@ -169,7 +191,7 @@ class Form extends Component {
             </FormControl>
             <div style={{ paddingTop: 10 }}>
               <FlatButton
-                label="Crear Evento"
+                label="Confirmar"
                 backgroundColor="lightblue"
                 onClick={this.handleFormSubmit}
               />

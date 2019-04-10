@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import ReactTable from "react-table";
-import { database, validateSession } from "../config/config";
+import { database } from "../config/config";
 import "react-table/react-table.css";
+import DialogForm from "./dialogForm";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Button from "@material-ui/core/Button";
 
 class DataTable extends Component {
   constructor() {
@@ -42,18 +45,43 @@ class DataTable extends Component {
     } else {
       return "Dic";
     }
-
-    return month;
   };
   getFecha = date => {
     const arr = date.split("-");
-    return this.getMonth(arr[1]) + " " + arr[2] + " " + arr[0];
+    return this.getMonth(arr[1]) + ", " + arr[2] + ", " + arr[0];
   };
 
   getData() {
     this.databaseRef.once("value").then(snapshot => {
       let dataTable = [];
       const eData = snapshot.val();
+
+      if(eData != null)
+      {
+        const keys = Object.keys(eData);
+
+        for (let i = 0; i < keys.length; i++) {
+          const k = keys[i];
+          dataTable.push({
+            key: k,
+            evento: eData[k].evento,
+            participantes: eData[k].participantes,
+            tipoEventos: eData[k].tipoEventos,
+            ambito: eData[k].ambito,
+            discapacidad: eData[k].discapidad,
+            fecha: this.getFecha(eData[k].fecha),
+            horario: eData[k].horario
+          });
+        }
+      }
+      return dataTable;
+    });
+  }
+  // get the data from the firebase and push them out
+  gotData = data => {
+    let dataTable = [];
+    const eData = data.val();
+    if (eData != null) {
       const keys = Object.keys(eData);
 
       for (let i = 0; i < keys.length; i++) {
@@ -69,27 +97,6 @@ class DataTable extends Component {
           horario: eData[k].horario
         });
       }
-      return dataTable;
-    });
-  }
-  // get the data from the firebase and push them out
-  gotData = data => {
-    let dataTable = [];
-    const eData = data.val();
-    const keys = Object.keys(eData);
-
-    for (let i = 0; i < keys.length; i++) {
-      const k = keys[i];
-      dataTable.push({
-        key: k,
-        evento: eData[k].evento,
-        participantes: eData[k].participantes,
-        tipoEventos: eData[k].tipoEventos,
-        ambito: eData[k].ambito,
-        discapacidad: eData[k].discapidad,
-        fecha: this.getFecha(eData[k].fecha),
-        horario: eData[k].horario
-      });
     }
     this.setState({ data: dataTable });
   };
@@ -98,14 +105,32 @@ class DataTable extends Component {
   };
 
   handleEdit = r => {
-      console.log(r._index);
-      console.log(this.state.data[r._index].key);
+    const index = r._index;
+    this.databaseRef.child(this.state.data[index].key).update({
+      evento: "", //eData[k].evento,
+      participantes: "", //eData[k].participantes,
+      tipoEventos: "", //eData[k].tipoEventos,
+      ambito: "", //eData[k].ambito,
+      discapidad: "", //eData[k].discapidad,
+      fecha: "", //this.getFecha(eData[k].fecha),
+      horario: "" //eData[k].horario
+    });
   };
 
     handleDelete = r => {
-        const index = r._index;
-        this.databaseRef.child(this.state.data[index].key).remove();
+        if (window.confirm("¿Estás seguro de querer eliminar ese evento?")) {
+            const index = r._index;
+            this.databaseRef.child(this.state.data[index].key).remove();
+        }
     }
+
+  handleSubComponent = r => {
+    return (
+      <div style={{ padding: "20px" }}>
+        {r.original.evento} por {r.original.participantes}
+      </div>
+    );
+  }
 
 
   render() {
@@ -148,17 +173,29 @@ class DataTable extends Component {
               accessor: "actions",
               Cell: ({ row }) => (
                 <div>
-                  <button onClick={e => this.handleEdit(row)}>
-                    Editar
-                  </button>
-                  <button onClick={e => this.handleDelete(row)}>
-                    Eliminar
-                  </button>
-                </div>)
+                  <DialogForm
+                    type={"Edit"}
+                    icon={"outlined"}
+                    row={row._index}
+                    data={this.state.data}
+                  />
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    aria-label="delete"
+                    onClick={e => this.handleDelete(row)}
+                  >
+                    <DeleteIcon />
+                  </Button>
+                </div>
+              )
             }
           ]}
           defaultPageSize={4}
           className="-striped -highlight"
+          SubComponent={row => {
+            return this.handleSubComponent(row);
+          }}
         />
         <br />
       </div>
