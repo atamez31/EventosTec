@@ -3,7 +3,7 @@ import React from 'react';
 import './index.css';
 import ReactDOM from "react-dom";
 import * as serviceWorker from './serviceWorker';
-import { Redirect, Route, Router } from "react-router";
+import {  Route, Router } from "react-router"; //Redirect????
 import createBrowserHistory from "history/createBrowserHistory";
 import Home from "./components/home";
 
@@ -12,8 +12,9 @@ export const customHistory = createBrowserHistory();
 const Root = () => (
     <Router history={customHistory}>
       <div>
-        <Route path="/home" component={Home} />
-        <Redirect from="/" to="/home" />
+        {/* //<Redirect exact from="/" to="/home" /> */}
+       <Route exact path="/home" component={Home} />
+       <Route exact path="/" component={Home} />
       </div>
     </Router>
 );

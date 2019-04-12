@@ -111,90 +111,109 @@ class Form extends Component {
     }
   };
 
-  tipos = ["Conferencia", "Curso", "Diplomado", "Seminario", "Taller"];
-  ambitos = ["Escolar", "Laboral", "Salud", "Social"];
-  discapidad = ["Auditiva", "Intelectual", "Motriz", "Psicosocial", "Visual"];
+  tipos = [
+    {id: 1, value:"Conferencia"},
+    { id: 2, value: "Curso" },
+    { id: 3, value: "Seminario" },
+    { id: 4, value: "Taller" },
+    { id: 5, value: "Diplomado" }
+  ];
+  ambitos = [
+    { id: 1, value: "Escolar" },
+    { id: 2, value: "Laboral" },
+    { id: 3, value: "Salud" },
+    { id: 4, value: "Social" }
+  ];
+  discapidad = [
+    { id: 1, value: "Auditiva" },
+    { id: 2, value: "Intelectual" },
+    { id: 3, value: "Motriz" },
+    { id: 4, value: "Psicosocial" },
+    { id: 5, value: "Visual" }
+  ];
 
   render() {
     return (
       <div>
         <form className="container">
           <MuiThemeProvider>
-            <TextField
-              value={this.state.evento}
-              onChange={this.handleNameChange}
-              floatingLabelText="Nombre del Evento"
-              style={{ width: "80%" }}
-            />
-
-            <TextField
-              multiLine={true}
-              value={this.state.participantes}
-              onChange={this.handleParticipants}
-              floatingLabelText="Participantes"
-              style={{ width: "80%" }}
-            />
-            <br />
-            <TextField
-              id="fecha"
-              label="Fecha"
-              type="date"
-              value={this.state.fecha}
-              onChange={this.handleDateChange}
-            />
-            <TextField
-              id="tiempo"
-              style={{ paddingLeft: 10 }}
-              type="time"
-              label="Hora"
-              value={this.state.horario}
-              onChange={this.handleTimeChange}
-            />
-            <br />
-            <FormControl>
-              <InputLabel htmlFor="ambito">Ámbito</InputLabel>
-              <Select
-                native
-                value={this.state.ambito}
-                onChange={this.handleDropDownChangeAmbito}
-              >
-                {this.ambitos.map(category => {
-                  return <option value={category}>{category}</option>;
-                })}
-              </Select>
-            </FormControl>
-            <br />
-            <FormControl>
-              <InputLabel htmlFor="tipo">Tipo</InputLabel>
-              <Select
-                native
-                value={this.state.tipoEventos}
-                onChange={this.handleDropDownChange}
-              >
-                {this.tipos.map(category => {
-                  return <option value={category}>{category}</option>;
-                })}
-              </Select>
-            </FormControl>
-            <br />
-            <FormControl>
-              <InputLabel htmlFor="discapacidad">Discapacidad</InputLabel>
-              <Select
-                native
-                value={this.state.discapidad}
-                onChange={this.handleDropDownChangeDiscapacidad}
-              >
-                {this.discapidad.map(category => {
-                  return <option value={category}>{category}</option>;
-                })}
-              </Select>
-            </FormControl>
-            <div style={{ paddingTop: 10 }}>
-              <FlatButton
-                label="Confirmar"
-                backgroundColor="lightblue"
-                onClick={this.handleFormSubmit}
+            <div>
+              <TextField
+                value={this.state.evento}
+                onChange={this.handleNameChange}
+                floatingLabelText="Nombre del Evento"
+                style={{ width: "80%" }}
               />
+
+              <TextField
+                multiLine={true}
+                value={this.state.participantes}
+                onChange={this.handleParticipants}
+                floatingLabelText="Participantes"
+                style={{ width: "80%" }}
+              />
+              <br />
+              <TextField
+                id="fecha"
+                label="Fecha"
+                type="date"
+                value={this.state.fecha}
+                onChange={this.handleDateChange}
+              />
+              <TextField
+                id="tiempo"
+                style={{ paddingLeft: 10 }}
+                type="time"
+                label="Hora"
+                value={this.state.horario}
+                onChange={this.handleTimeChange}
+              />
+              <br />
+              <FormControl>
+                <InputLabel htmlFor="ambito">Ámbito</InputLabel>
+                <Select
+                  native
+                  value={this.state.ambito}
+                  onChange={this.handleDropDownChangeAmbito}
+                >
+                  {this.ambitos.map(category => {
+                    return <option key={category.id} value={category.value}>{category.value}</option>;
+                  })}
+                </Select>
+              </FormControl>
+              <br />
+              <FormControl>
+                <InputLabel htmlFor="tipo">Tipo</InputLabel>
+                <Select
+                  native
+                  value={this.state.tipoEventos}
+                  onChange={this.handleDropDownChange}
+                >
+                  {this.tipos.map(category => {
+                    return <option key={category.id} value={category.value}>{category.value}</option>;
+                  })}
+                </Select>
+              </FormControl>
+              <br />
+              <FormControl>
+                <InputLabel htmlFor="discapacidad">Discapacidad</InputLabel>
+                <Select
+                  native
+                  value={this.state.discapidad}
+                  onChange={this.handleDropDownChangeDiscapacidad}
+                >
+                  {this.discapidad.map(category => {
+                    return <option key={category.id} value={category.value}>{category.value}</option>;
+                  })}
+                </Select>
+              </FormControl>
+              <div style={{ paddingTop: 10 }}>
+                <FlatButton
+                  label="Confirmar"
+                  backgroundColor="lightblue"
+                  onClick={this.handleFormSubmit}
+                />
+              </div>
             </div>
           </MuiThemeProvider>
         </form>
