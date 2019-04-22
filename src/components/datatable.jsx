@@ -46,6 +46,7 @@ class DataTable extends Component {
       return "Dic";
     }
   };
+
   getFecha = date => {
     const arr = date.split("-");
     return this.getMonth(arr[1]) + ", " + arr[2] + ", " + arr[0];
@@ -104,19 +105,6 @@ class DataTable extends Component {
     console.log(err);
   };
 
-  handleEdit = r => {
-    const index = r._index;
-    this.databaseRef.child(this.state.data[index].key).update({
-      evento: "", //eData[k].evento,
-      participantes: "", //eData[k].participantes,
-      tipoEventos: "", //eData[k].tipoEventos,
-      ambito: "", //eData[k].ambito,
-      discapidad: "", //eData[k].discapidad,
-      fecha: "", //this.getFecha(eData[k].fecha),
-      horario: "" //eData[k].horario
-    });
-  };
-
     handleDelete = r => {
         if (window.confirm("¿Estás seguro de querer eliminar ese evento?")) {
             const index = r._index;
@@ -132,14 +120,13 @@ class DataTable extends Component {
     );
   }
 
-
   render() {
     const { data } = this.state;
     return (
       <div>
         <ReactTable
           data={data}
-          columns={[
+          columns={this.props.isSignedIn ? ([
             {
               Header: "Evento",
               accessor: "evento" // String-based value accessors!
@@ -190,7 +177,36 @@ class DataTable extends Component {
                 </div>
               )
             }
-          ]}
+          ]) : ([
+            {
+              Header: "Evento",
+              accessor: "evento" // String-based value accessors!
+            },
+            {
+              Header: "Participantes",
+              accessor: "participantes"
+            },
+            {
+              Header: "Fecha",
+              accessor: "fecha"
+            },
+            {
+              Header: "Hora",
+              accessor: "horario"
+            },
+            {
+              Header: "Tipo de Evento",
+              accessor: "tipoEventos"
+            },
+            {
+              Header: "Discapacidad",
+              accessor: "discapacidad"
+            },
+            {
+              Header: "Ámbito", // Custom header components!
+              accessor: "ambito"
+            }
+          ])}
           defaultPageSize={4}
           className="-striped -highlight"
           SubComponent={row => {

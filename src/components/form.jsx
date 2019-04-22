@@ -17,18 +17,52 @@ class Form extends Component {
     tipoEventos: "Conferencia"
   };
 
+  getMonth = month => {
+    if (month === "En") {
+      return "01";
+    } else if (month === "Feb") {
+      return "02";
+    } else if (month === "Mar") {
+      return "03";
+    } else if (month === "Abr") {
+      return "04";
+    } else if (month === "May") {
+      return "05";
+    } else if (month === "Jun") {
+      return "06";
+    } else if (month === "Jul") {
+      return "07";
+    } else if (month === "Agto") {
+      return "08";
+    } else if (month === "Sept") {
+      return "09";
+    } else if (month === "Oct") {
+      return "10";
+    } else if (month === "Nov") {
+      return "11";
+    } else {
+      return "12";
+    }
+  };
+
+  getFecha = fecha => {
+    const arrFecha = fecha.split(", ");
+    return arrFecha[2] + "-" + this.getMonth(arrFecha[0]) +  "-" + arrFecha[1];
+  };
   componentWillMount = () => {
     if (this.props.type === "Edit") {
+      const index = this.props.row;
       this.setState(() => ({
-        evento: this.props.data[this.props.row].evento,
-        participantes: this.props.data[this.props.row].participantes,
-        horario: this.props.data[this.props.row].horario,
-        ambito: this.props.data[this.props.row].ambito,
-        discapidad: this.props.data[this.props.row].discapidad,
-        tipoEventos: this.props.data[this.props.row].tipoEventos
+        evento: this.props.data[index].evento,
+        participantes: this.props.data[index].participantes,
+        fecha: this.getFecha(this.props.data[index].fecha),
+        horario: this.props.data[index].horario,
+        ambito: this.props.data[index].ambito,
+        discapidad: this.props.data[index].discapacidad,
+        tipoEventos: this.props.data[index].tipoEventos
       }));
     }
-  }
+  };
   handleNameChange = e => {
     const evento = e.target.value;
     this.setState(() => ({ evento }));
@@ -56,7 +90,6 @@ class Form extends Component {
   };
 
   handleDropDownChangeAmbito = e => {
-
     const ambito = e.target.value;
     this.setState(() => {
       return { ambito };
@@ -74,31 +107,35 @@ class Form extends Component {
   };
 
   validateForm() {
-    if (this.state.evento.trim() === "" || this.state.participantes.trim() === "" ||
-        this.state.fecha === "" || this.state.horario === "") {
+    if (
+      this.state.evento.trim() === "" ||
+      this.state.participantes.trim() === "" ||
+      this.state.fecha === "" ||
+      this.state.horario === ""
+    ) {
       return false;
-    }
-    else {
+    } else {
       return true;
     }
-  };
+  }
 
   handleFormSubmit = e => {
     e.preventDefault();
     if (this.validateForm()) {
-      if(this.props.type === "Edit")
-      {
-        database.ref(`eventos`).child(this.props.data[this.props.row].key).update({
-          evento: this.state.evento, //"", //eData[k].evento,
-          participantes: this.state.participantes,//"", //eData[k].participantes,
-          tipoEventos: this.state.tipoEventos, //eData[k].tipoEventos,
-          ambito: this.state.ambito, //eData[k].ambito,
-          discapidad: this.state.discapidad, //eData[k].discapidad,
-          fecha: this.state.fecha, //this.getFecha(eData[k].fecha),
-          horario: this.state.horario //eData[k].horario
-        });
-      }
-      else {
+      if (this.props.type === "Edit") {
+        database
+          .ref(`eventos`)
+          .child(this.props.data[this.props.row].key)
+          .update({
+            evento: this.state.evento, //"", //eData[k].evento,
+            participantes: this.state.participantes, //"", //eData[k].participantes,
+            tipoEventos: this.state.tipoEventos, //eData[k].tipoEventos,
+            ambito: this.state.ambito, //eData[k].ambito,
+            discapidad: this.state.discapidad, //eData[k].discapidad,
+            fecha: this.state.fecha, //this.getFecha(eData[k].fecha),
+            horario: this.state.horario //eData[k].horario
+          });
+      } else {
         database
           .ref(`eventos`)
           .push(this.state)
@@ -112,18 +149,20 @@ class Form extends Component {
   };
 
   tipos = [
-    {id: 1, value:"Conferencia"},
+    { id: 1, value: "Conferencia" },
     { id: 2, value: "Curso" },
     { id: 3, value: "Seminario" },
     { id: 4, value: "Taller" },
     { id: 5, value: "Diplomado" }
   ];
+
   ambitos = [
     { id: 1, value: "Escolar" },
     { id: 2, value: "Laboral" },
     { id: 3, value: "Salud" },
     { id: 4, value: "Social" }
   ];
+
   discapidad = [
     { id: 1, value: "Auditiva" },
     { id: 2, value: "Intelectual" },
@@ -170,19 +209,6 @@ class Form extends Component {
               />
               <br />
               <FormControl>
-                <InputLabel htmlFor="ambito">Ámbito</InputLabel>
-                <Select
-                  native
-                  value={this.state.ambito}
-                  onChange={this.handleDropDownChangeAmbito}
-                >
-                  {this.ambitos.map(category => {
-                    return <option key={category.id} value={category.value}>{category.value}</option>;
-                  })}
-                </Select>
-              </FormControl>
-              <br />
-              <FormControl>
                 <InputLabel htmlFor="tipo">Tipo</InputLabel>
                 <Select
                   native
@@ -190,7 +216,11 @@ class Form extends Component {
                   onChange={this.handleDropDownChange}
                 >
                   {this.tipos.map(category => {
-                    return <option key={category.id} value={category.value}>{category.value}</option>;
+                    return (
+                      <option key={category.id} value={category.value}>
+                        {category.value}
+                      </option>
+                    );
                   })}
                 </Select>
               </FormControl>
@@ -203,10 +233,32 @@ class Form extends Component {
                   onChange={this.handleDropDownChangeDiscapacidad}
                 >
                   {this.discapidad.map(category => {
-                    return <option key={category.id} value={category.value}>{category.value}</option>;
+                    return (
+                      <option key={category.id} value={category.value}>
+                        {category.value}
+                      </option>
+                    );
                   })}
                 </Select>
               </FormControl>
+              <br />
+              <FormControl>
+                <InputLabel htmlFor="ambito">Ámbito</InputLabel>
+                <Select
+                  native
+                  value={this.state.ambito}
+                  onChange={this.handleDropDownChangeAmbito}
+                >
+                  {this.ambitos.map(category => {
+                    return (
+                      <option key={category.id} value={category.value}>
+                        {category.value}
+                      </option>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+              <br />
               <div style={{ paddingTop: 10 }}>
                 <FlatButton
                   label="Confirmar"

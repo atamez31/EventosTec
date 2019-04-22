@@ -16,6 +16,7 @@ firebase.initializeApp(config);
 export const googleProvider = new firebase.auth.GoogleAuthProvider();
 export const database = firebase.database();
 export const firebaseAuth = firebase.auth;
+export const firebaseP = firebase.auth();
 
 export function validateSession() {
   if (localStorage.getItem(appTokenKey)) {
