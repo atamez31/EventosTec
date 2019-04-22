@@ -207,7 +207,7 @@ class DataTable extends Component {
               accessor: "ambito"
             }
           ])}
-          defaultPageSize={4}
+          defaultPageSize={5}
           className="-striped -highlight"
           SubComponent={row => {
             return this.handleSubComponent(row);

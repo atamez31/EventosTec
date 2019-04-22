@@ -53,8 +53,6 @@ export default class FormDialog extends React.Component {
             if (user && user.email === admin_email || this.state.isSignedIn) {
                 this.setState({ isSignedIn: !!user })
                 this.passDataToParent(this.state.isSignedIn);
-            } else {
-                alert("Email invalido")
             }
         })
     }

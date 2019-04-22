@@ -19,9 +19,13 @@ class Home extends Component {
         {/* <Form /> */}
         <br />
         <div className="container" style={{ paddingTop: 20 }}>
-          <DialogForm type={"Add"} icon={"fab"} />
+          {this.state.isSignedIn ? (
+            <DialogForm type={"Add"} icon={"fab"} />
+          ) : (
+            <br />
+          )}
           <br />
-          <DataTable isSignedIn={this.state.isSignedIn}/>
+          <DataTable isSignedIn={this.state.isSignedIn} />
         </div>
         <div />
       </div>
