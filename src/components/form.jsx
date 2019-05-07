@@ -12,6 +12,7 @@ class Form extends Component {
     participantes: "",
     fecha: "",
     horario: "",
+    lugar: "",
     ambito: "Escolar",
     discapidad: "Auditiva",
     tipoEventos: "Conferencia"
@@ -59,6 +60,7 @@ class Form extends Component {
         horario: this.props.data[index].horario,
         ambito: this.props.data[index].ambito,
         discapidad: this.props.data[index].discapacidad,
+        lugar: this.props.data[index].lugar,
         tipoEventos: this.props.data[index].tipoEventos
       }));
     }
@@ -66,6 +68,11 @@ class Form extends Component {
   handleNameChange = e => {
     const evento = e.target.value;
     this.setState(() => ({ evento }));
+  };
+
+  handleLugarChange = e => {
+    const lugar = e.target.value;
+    this.setState(({lugar}));
   };
 
   handleParticipants = e => {
@@ -133,6 +140,7 @@ class Form extends Component {
             ambito: this.state.ambito, //eData[k].ambito,
             discapidad: this.state.discapidad, //eData[k].discapidad,
             fecha: this.state.fecha, //this.getFecha(eData[k].fecha),
+            lugar: this.state.lugar,
             horario: this.state.horario //eData[k].horario
           });
       } else {
@@ -189,6 +197,13 @@ class Form extends Component {
                 value={this.state.participantes}
                 onChange={this.handleParticipants}
                 floatingLabelText="Participantes"
+                style={{ width: "80%" }}
+              />
+              <br />
+              <TextField
+                value={this.state.lugar}
+                onChange={this.handleLugarChange}
+                floatingLabelText="Lugar"
                 style={{ width: "80%" }}
               />
               <br />
