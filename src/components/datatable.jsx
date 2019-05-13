@@ -93,7 +93,8 @@ class DataTable extends Component {
           participantes: eData[k].participantes,
           tipoEventos: eData[k].tipoEventos,
           ambito: eData[k].ambito,
-          discapacidad: eData[k].discapidad,
+          discapacidad: eData[k].discapacidad,
+          lugar: eData[k].lugar,
           fecha: this.getFecha(eData[k].fecha),
           horario: eData[k].horario
         });
@@ -134,6 +135,10 @@ class DataTable extends Component {
             {
               Header: "Participantes",
               accessor: "participantes"
+            },
+            {
+              Header: "Lugar",
+              accessor: "lugar"
             },
             {
               Header: "Fecha",
