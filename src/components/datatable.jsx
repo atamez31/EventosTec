@@ -66,6 +66,7 @@ class DataTable extends Component {
           dataTable.push({
             key: k,
             evento: eData[k].evento,
+            lugar: eData[k].lugar,
             participantes: eData[k].participantes,
             tipoEventos: eData[k].tipoEventos,
             ambito: eData[k].ambito,
@@ -90,6 +91,7 @@ class DataTable extends Component {
         dataTable.push({
           key: k,
           evento: eData[k].evento,
+          lugar: eData[k].lugar,
           participantes: eData[k].participantes,
           tipoEventos: eData[k].tipoEventos,
           ambito: eData[k].ambito,
@@ -134,6 +136,10 @@ class DataTable extends Component {
             {
               Header: "Participantes",
               accessor: "participantes"
+            },
+            {
+              Header: "Lugar",
+              accessor: "lugar"
             },
             {
               Header: "Fecha",
@@ -185,6 +191,10 @@ class DataTable extends Component {
             {
               Header: "Participantes",
               accessor: "participantes"
+            },
+            {
+              Header: "Lugar",
+              accessor: "lugar"
             },
             {
               Header: "Fecha",
