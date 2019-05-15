@@ -13,7 +13,7 @@ class Form extends Component {
     fecha: "",
     horario: "",
     ambito: "Escolar",
-    discapidad: "Auditiva",
+    discapacidad: "Auditiva",
     tipoEventos: "Conferencia"
   };
 
@@ -58,7 +58,7 @@ class Form extends Component {
         fecha: this.getFecha(this.props.data[index].fecha),
         horario: this.props.data[index].horario,
         ambito: this.props.data[index].ambito,
-        discapidad: this.props.data[index].discapacidad,
+        discapacidad: this.props.data[index].discapacidad,
         tipoEventos: this.props.data[index].tipoEventos
       }));
     }
@@ -82,10 +82,10 @@ class Form extends Component {
   };
 
   handleDropDownChangeDiscapacidad = event => {
-    const discapidad = event.target.value;
-    //value = discapidad
+    const discapacidad = event.target.value;
+    //value = discapacidad
     this.setState(() => {
-      return { discapidad };
+      return { discapacidad };
     });
   };
 
@@ -131,7 +131,7 @@ class Form extends Component {
             participantes: this.state.participantes, //"", //eData[k].participantes,
             tipoEventos: this.state.tipoEventos, //eData[k].tipoEventos,
             ambito: this.state.ambito, //eData[k].ambito,
-            discapidad: this.state.discapidad, //eData[k].discapidad,
+            discapacidad: this.state.discapacidad, //eData[k].discapacidad,
             fecha: this.state.fecha, //this.getFecha(eData[k].fecha),
             horario: this.state.horario //eData[k].horario
           });
@@ -163,7 +163,7 @@ class Form extends Component {
     { id: 4, value: "Social" }
   ];
 
-  discapidad = [
+  discapacidad = [
     { id: 1, value: "Auditiva" },
     { id: 2, value: "Intelectual" },
     { id: 3, value: "Motriz" },
@@ -229,10 +229,10 @@ class Form extends Component {
                 <InputLabel htmlFor="discapacidad">Discapacidad</InputLabel>
                 <Select
                   native
-                  value={this.state.discapidad}
+                  value={this.state.discapacidad}
                   onChange={this.handleDropDownChangeDiscapacidad}
                 >
-                  {this.discapidad.map(category => {
+                  {this.discapacidad.map(category => {
                     return (
                       <option key={category.id} value={category.value}>
                         {category.value}
