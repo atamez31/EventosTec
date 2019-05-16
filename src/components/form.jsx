@@ -59,6 +59,7 @@ class Form extends Component {
         fecha: this.getFecha(this.props.data[index].fecha),
         horario: this.props.data[index].horario,
         ambito: this.props.data[index].ambito,
+        lugar: this.props.data[index].lugar,
         discapacidad: this.props.data[index].discapacidad,
         tipoEventos: this.props.data[index].tipoEventos
       }));
