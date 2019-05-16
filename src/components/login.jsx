@@ -47,9 +47,8 @@ export default class FormDialog extends React.Component {
     
 
     componentDidMount = () => {
-        const admin_email = "eventos.inclusion.tec@gmail.com";//this.getAdminMail()
+        const admin_email = process.env.REACT_APP_ADMIN_EMAIL;//this.getAdminMail()
         firebaseP.onAuthStateChanged(user => {
-            console.log(admin_email);
             if (user && user.email === admin_email || this.state.isSignedIn) {
                 this.setState({ isSignedIn: !!user })
                 this.passDataToParent(this.state.isSignedIn);
